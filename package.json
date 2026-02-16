@@ -1,0 +1,19 @@
+{
+  "name": "vtl-platform-api",
+  "version": "1.0.0",
+  "description": "VTL Evosystem — Shared Platform API Worker",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "type-check": "tsc --noEmit",
+    "db:schema:local": "wrangler d1 execute vtl-evosystem --local --file=schema/schema.sql",
+    "db:schema:remote": "wrangler d1 execute vtl-evosystem --file=schema/schema.sql",
+    "db:seed:local": "wrangler d1 execute vtl-evosystem --local --file=schema/seed.sql"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240208.0",
+    "typescript": "^5.3.3",
+    "wrangler": "^3.114.17"
+  }
+}
