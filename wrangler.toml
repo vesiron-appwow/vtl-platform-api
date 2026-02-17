@@ -7,26 +7,26 @@ main = "src/index.ts"
 compatibility_date = "2026-02-01"
 compatibility_flags = ["nodejs_compat"]
 
+# ─────────────────────────────────────────────
+# PRODUCTION (Default)
+# ─────────────────────────────────────────────
+
 # ── D1 DATABASE ──
-# Canonical binding name: DB
 [[d1_databases]]
 binding = "DB"
 database_name = "vtl-evosystem"
 database_id = "a88a5508-3df4-48b9-9af3-b0f676762bc1"
 
 # ── KV NAMESPACES ──
-# Canonical binding names: KV_CATALOG, KV_CONFIG
 [[kv_namespaces]]
 binding = "KV_CATALOG"
 id = "5ac4945686334f9f94f9f27940a42872"
-
 
 [[kv_namespaces]]
 binding = "KV_CONFIG"
 id = "fc8578e9455840d1a7018d9cb37f4903"
 
 # ── R2 BUCKETS ──
-# Canonical binding names: R2_MEDIA, R2_DOCS
 [[r2_buckets]]
 binding = "R2_MEDIA"
 bucket_name = "vtl-media"
@@ -40,15 +40,39 @@ bucket_name = "vtl-docs"
 ENVIRONMENT = "production"
 API_VERSION = "v1"
 
-# ── SECRETS (set via wrangler secret put, never in this file) ──
-# STRIPE_SECRET_KEY
-# STRIPE_WEBHOOK_SECRET
-# These are referenced in code as env.STRIPE_SECRET_KEY and env.STRIPE_WEBHOOK_SECRET
+# ─────────────────────────────────────────────
+# PREVIEW ENVIRONMENT
+# ─────────────────────────────────────────────
 
-# ── ROUTES ──
-# All API traffic routed through this worker
+[env.preview]
+
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "vtl-evosystem-preview"
+database_id = "e3cb2adc-3049-406f-b369-96d7e61e0219"
+
+[[env.preview.kv_namespaces]]
+binding = "KV_CATALOG"
+id = "14111b32215d4116abb753285cbb889a"
+
+# NOTE:
+# KV_CONFIG intentionally omitted for preview unless config divergence is required.
+
+[[env.preview.r2_buckets]]
+binding = "R2_MEDIA"
+bucket_name = "vtl-media"
+
+[[env.preview.r2_buckets]]
+binding = "R2_DOCS"
+bucket_name = "vtl-docs"
+
+[env.preview.vars]
+ENVIRONMENT = "preview"
+API_VERSION = "v1"
+
+# ─────────────────────────────────────────────
+# ROUTES & SCHEDULING
+# ─────────────────────────────────────────────
+
 [triggers]
 crons = []
-
-# ── RATE LIMITING ──
-# Applied per route in middleware layer
